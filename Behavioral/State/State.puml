@@ -1,0 +1,32 @@
+@startuml
+
+interface PackageState {
+    + next(pkg: Package): void
+    + printStatus(): void
+}
+
+class OrderedState implements PackageState {
+    ~ next(pkg: Package): void
+    ~ printStatus(): void
+}
+
+class DeliveredState implements PackageState {
+    ~ next(pkg: Package): void
+    ~ printStatus(): void
+}
+
+class ReceivedState implements PackageState {
+    ~ next(pkg: Package): void
+    ~ printStatus(): void
+}
+
+class Package {
+    - state: PackageState
+    + setState(state: PackageState): void
+    + nextState(): void
+    + printStatus(): void
+}
+
+Package *-right-> PackageState
+
+@enduml

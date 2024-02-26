@@ -1,0 +1,75 @@
+@startuml
+
+class Infantryman {
+    + info(): void
+}
+
+class Archer {
+    + info(): void
+}
+
+class Horseman {
+    + info(): void
+}
+
+class Catapult {
+    + info(): void
+}
+
+class Elephant {
+    + info(): void
+}
+
+class Army {
+    vi: List<Infantryman>
+    va: List<Archer>
+    vh: List<Horseman>
+    vs: List<Catapult>
+    ve: List<Elephant>
+    + info(): void
+}
+
+class ArmyBuilder {
+    # p: Army
+    + ArmyBuilder()
+    + createArmy(): void
+    + buildInfantryman(): void
+    + buildArcher(): void
+    + buildHorseman(): void
+    + buildCatapult(): void
+    + buildElephant(): void
+    + getArmy(): Army
+}
+
+class RomanArmyBuilder extends ArmyBuilder {
+    + createArmy(): void
+    + buildInfantryman(): void
+    + buildArcher(): void
+    + buildHorseman(): void
+    + buildCatapult(): void
+}
+
+class CarthaginianArmyBuilder extends ArmyBuilder {
+    + createArmy(): void
+    + buildInfantryman(): void
+    + buildArcher(): void
+    + buildHorseman(): void
+    + buildElephant(): void
+}
+
+class Director {
+    + createArmy(builder: ArmyBuilder): Army
+}
+
+Director o--> ArmyBuilder
+ArmyBuilder::p o--> Army
+Army::vi *--> Infantryman
+Army::va *--> Archer
+Army *-right-> Horseman
+Army *--> Catapult
+Army::ve *--> Elephant
+
+RomanArmyBuilder ..> Army
+CarthaginianArmyBuilder ..> Army
+
+@enduml

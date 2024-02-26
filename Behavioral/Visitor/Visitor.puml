@@ -1,0 +1,58 @@
+@startuml
+
+interface Shape {
+    + accept(visitor: ShapeVisitor): void
+}
+
+class Circle implements Shape {
+    - radius: double
+    + Circle(radius: double)
+    + getRadius(): double
+    ~ accept(visitor: ShapeVisitor): void
+}
+
+class Square implements Shape {
+    - side: double
+    + Square(side: double)
+    + getSide(): double
+    ~ accept(visitor: ShapeVisitor): void
+}
+
+class Triangle implements Shape {
+    - base: double
+    - height: double;
+    + Triangle(base: double, height: double)
+    + getBase(): double
+    + getHeight(): double
+    ~ accept(visitor: ShapeVisitor): void
+}
+
+interface ShapeVisitor {
+    + visit(Circle circle): void
+    + visit(Square square): void
+    + visit(Triangle triangle): void
+}
+
+class AreaCalculator implements ShapeVisitor {
+    - totalArea: double
+    ~ visit(circle: Circle): void
+    ~ visit(square: Square): void
+    ~ visit(triangle: Triangle): void
+    + getTotalArea(): double
+}
+
+class ObjectStructure {
+    - shapes: List<Shape>
+    + addShape(Shape shape): void
+    + calculateArea(areaCalculator: AreaCalculator): void
+}
+
+class Client {
+    + main(args: String[]): void
+}
+
+Client --> ObjectStructure
+Client --> AreaCalculator
+ObjectStructure *--> Shape
+
+@enduml

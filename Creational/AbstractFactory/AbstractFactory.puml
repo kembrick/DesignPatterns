@@ -1,0 +1,58 @@
+@startuml
+
+enum Nation
+enum WarriorType
+
+abstract class Warrior {
+    + type: WarriorType
+    + nation: Nation
+    + name: String
+    + Warrior(type: WarriorType, nation: Nation, name: String)
+    + {abstract} create(): void
+}
+class InfantryWarrior {
+    + InfantryWarrior(nation: Nation, name: String)
+    ~ create(): void
+}
+class CavalryWarrior {
+    + CavalryWarrior(nation: Nation, name: String)
+    ~ create(): void
+}
+interface NationWarriorFactory {
+    + makeInfantryWarrior(): InfantryWarrior
+    + makeCavalryWarrior(): CavalryWarrior
+}
+class RomanWarriorFactory {
+    ~ makeInfantryWarrior(): InfantryWarrior
+    ~ makeCavalryWarrior(): CavalryWarrior
+    + createWarrior(type: WarriorType): Warrior
+}
+class VikingWarriorFactory {
+    ~ makeInfantryWarrior(): InfantryWarrior
+    ~ makeCavalryWarrior(): CavalryWarrior
+    + createWarrior(type: WarriorType): Warrior
+}
+class AbstractFactoryRunner {
+    + main(String[]): void
+}
+class WarriorAbstractFactory {
+    + createWarrior(nation: Nation, type: WarriorType): Warrior
+}
+
+InfantryWarrior -down-|> Warrior
+CavalryWarrior -down-|> Warrior
+RomanWarriorFactory -down-|> NationWarriorFactory
+VikingWarriorFactory -down-|> NationWarriorFactory
+
+AbstractFactoryRunner ..> WarriorAbstractFactory : создаёт
+WarriorAbstractFactory ..> RomanWarriorFactory : создаёт
+WarriorAbstractFactory ..> VikingWarriorFactory : создаёт
+WarriorAbstractFactory "1" *-> "1" Warrior : Warrior
+RomanWarriorFactory ..> InfantryWarrior : создаёт
+RomanWarriorFactory ..> CavalryWarrior : создаёт
+VikingWarriorFactory ..> InfantryWarrior : создаёт
+VikingWarriorFactory ..> CavalryWarrior : создаёт
+Warrior "1" *--> "1" Nation : Nation
+Warrior "1" *--> "1" WarriorType : WarriorType
+
+@enduml

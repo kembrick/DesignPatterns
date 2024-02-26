@@ -1,0 +1,53 @@
+@startuml
+
+interface Command {
+    execute(): void
+}
+
+class Switch {
+    - commandMap: HashMap<String, Command>
+    + register(commandName: String, command: Command): void
+    + execute(commandName: String): void
+}
+
+class Light {
+    + turnOn(): void
+    + turnOff(): void
+}
+
+class SwitchOnCommand implements Command {
+    - light: Light
+    + SwitchOnCommand(light: Light)
+    ~ execute(): void
+}
+
+class SwitchOffCommand implements Command {
+    - light: Light
+    + SwitchOffCommand(light: Light)
+    ~ execute(): void
+}
+
+class Client {
+    + main(String[] args): void
+}
+
+Client --> Light
+Client ..> SwitchOnCommand
+Client ..> SwitchOffCommand
+SwitchOnCommand --> Light
+SwitchOffCommand --> Light
+Switch o--> Command
+
+note right of Light
+    Receiver
+end note
+
+note right of Switch
+    Invoker
+end note
+
+note "receiver action" as N1
+N1 -left- SwitchOnCommand::execute #line:khaki;line.bold
+N1 -right- SwitchOffCommand::execute #line:khaki;line.bold
+
+@enduml

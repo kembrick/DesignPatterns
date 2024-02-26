@@ -1,0 +1,38 @@
+@startuml
+
+interface Strategy {
+    + attack(): void
+}
+
+class UseBow implements Strategy {
+    ~ attack(): void
+}
+
+class UseSpear implements Strategy {
+    ~ attack(): void
+}
+
+class UseAxe implements Strategy {
+    ~ attack(): void
+}
+
+abstract class Warrior {
+    + strategy: Strategy
+}
+
+class Archer extends Warrior {
+    + Archer(): void
+}
+
+class Infantry extends Warrior {
+    + Infantry(): void
+}
+
+class Client {
+    + main(args: String[]): void
+}
+
+Client --> Warrior
+Warrior o--> Strategy
+
+@enduml

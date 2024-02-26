@@ -1,0 +1,33 @@
+@startuml
+
+enum WarriorType
+
+abstract class Warrior {
+    + type: WarriorType
+    + name: String
+    + Warrior(type: WarriorType, name: String)
+    + {abstract} create(): void
+}
+class InfantryWarrior extends Warrior {
+    + InfantryWarrior()
+    ~ create(): void
+}
+class CavalryWarrior extends Warrior {
+    + CavalryWarrior()
+    ~ create(): void
+}
+
+class FactoryRunner {
+    + main(String[]): void
+}
+class WarriorFactory {
+    + createWarrior(type: WarriorType): Warrior
+}
+
+WarriorFactory..> InfantryWarrior : создаёт
+WarriorFactory..> CavalryWarrior : создаёт
+FactoryRunner ..> WarriorFactory : создаёт
+WarriorFactory "1" *-> "1" Warrior : Warrior
+Warrior "1" *--> "1" WarriorType : WarriorType
+
+@enduml

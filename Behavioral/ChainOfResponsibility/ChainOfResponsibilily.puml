@@ -1,0 +1,52 @@
+@startuml
+
+interface Handler {
+    + setNext(handler: Handler): Handler
+    + handle(request: String): void
+    + isLocationExists(destination: String): boolean
+}
+
+class AbstractHandler {
+    # possibleLocations: List<String>
+    - nextHandler: Handler
+    + AbstractHandler()
+    + setNext(handler: Handler): Handler
+    + handle(request: String): void
+    + isLocationExists(destination: String): boolean
+}
+
+class Underground extends AbstractHandler {
+    + Underground()
+    + handle(request: String): void
+}
+
+class Car extends AbstractHandler {
+    + Car()
+    + handle(request: String): void
+}
+
+class Train extends AbstractHandler {
+    + Train()
+    +  handle(request: String): void
+}
+
+class Plane extends AbstractHandler {
+    + Plane()
+    + handle(request: String): void
+}
+
+AbstractHandler::nextHandler o---> Handler::Handler
+AbstractHandler .up.|> Handler
+
+note left of AbstractHandler::handle
+        if (nextHandler != null)
+            nextHandler.handle(request);
+end note
+
+note "if (isLocationExists(request))\n\t// Обработать\nelse\n\tsuper.handle(request)" as N1
+N1 -- Underground::handle #line:khaki;line.bold
+N1 -- Car::handle #line:khaki;line.bold
+N1 -- Train::handle #line:khaki;line.bold
+N1 -- Plane::handle #line:khaki;line.bold
+
+@enduml

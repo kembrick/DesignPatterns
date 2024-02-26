@@ -1,0 +1,28 @@
+@startuml
+
+interface InterfaceWarrior {
+    + doOperation(): void
+}
+class Warrior implements InterfaceWarrior {
+    ~ doOperation(): void
+}
+abstract class Decorator implements InterfaceWarrior {
+    # warrior: InterfaceWarrior
+    + Decorator (w: InterfaceWarrior)
+    ~ doOperation(): void
+    + newOperation(): void
+}
+class DecoratorInfantry extends Decorator {
+    + DecoratorInfantry(w: InterfaceWarrior)
+    ~ doOperation(): void
+    ~ newOperation(): void
+}
+class DecoratorRoman extends Decorator {
+    + DecoratorRoman(w: InterfaceWarrior)
+    ~ doOperation(): void
+    ~ newOperation(): void
+}
+
+Decorator::warrior "0..1" *--> "1" InterfaceWarrior
+
+@enduml
